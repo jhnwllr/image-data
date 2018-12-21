@@ -8,7 +8,7 @@ Not many images are available for commercial use, but many images are still avai
 
 Still there are thousands to millions of images available through the GBIF network. 
 
-![](C:/Users/ftw712/Desktop/image data/plots/kingdomBORBarplot.png)
+![](https://raw.githubusercontent.com/jhnwllr/image data/plots/kingdomBORBarplot.png)
 
 # Here we have images broken down by class, basisofrecord, and license
 
@@ -18,15 +18,13 @@ Also we notice that many groups have thousands of images.
 
 Again **commercial use** might be difficult for many groups...
 
-# ![](C:/Users/ftw712/Desktop/image data/plots/classBORBarplot.png)
 ![](https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/classBORBarplot.png)
-
 
 # Groups with a 1000s species with >10 images 
 
 Here are groups (based on taxonomic class), which have >1000 species with >10 images. 
 
-![](C:/Users/ftw712/Desktop/image data/plots/classSpeBarplot.png)
+![](https://raw.githubusercontent.com/jhnwllr/image data/plots/classSpeBarplot.png)
 
 
 # Percent coverage of species with >10 images
@@ -37,7 +35,7 @@ The global look for images for commercial use is even worse, although there is r
 
 **Species counts** were taken from **GBIF backbone** and probably should be interpreted with caution. Duplicates might explain why we see >100% in some cases. A better measure might be the total number of species for which we have **at least 1 occurrence**. Still this graphs shows that **regional breakdowns** are probably necessary for an image dataset with good coverage. 
 
-![](C:/Users/ftw712/Desktop/image data/plots/percentageCoverageBarplot.png)
+![](https://raw.githubusercontent.com/jhnwllr/image data/plots/percentageCoverageBarplot.png)
 
 # Selected regional coverage 
 
