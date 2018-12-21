@@ -18,7 +18,8 @@ Also we notice that many groups have thousands of images.
 
 Again **commercial use** might be difficult for many groups...
 
-![](C:/Users/ftw712/Desktop/image data/plots/classBORBarplot.png)
+# ![](C:/Users/ftw712/Desktop/image data/plots/classBORBarplot.png)
+![](https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/classBORBarplot.png)
 
 
 # Groups with a 1000s species with >10 images 
