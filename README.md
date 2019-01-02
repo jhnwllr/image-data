@@ -1,14 +1,18 @@
 
+# GBIF image data
+
+**Basis of record** tells us roughly whether an image was collected in situ (**human observation** like with a phone) or was collected or digitized by a museum (**preserved specimen**). 
+
 
 # Images counts by kingdom, basisofrecord, and license
 
-**basis of record** tells us roughly whether an image was collected in situ (human observation like with a phone) or was collected or digitized by a museum (preserved specimen). 
+
 
 Not many images are available for commercial use, but many images are still available for non-commercial use. Perhaps **iNaturalist** images are licensed as non-commercial, but will still be available? 
 
 Still there are thousands to millions of images available through the GBIF network. 
 
-![](https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/kingdomBORBarplot.png)
+![](https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/kingdomBORBarplot.png =100x20)
 
 # Here we have images broken down by class, basisofrecord, and license
 
