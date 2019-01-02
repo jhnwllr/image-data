@@ -13,7 +13,7 @@ Not many images are available for commercial use, but many images are still avai
 
 Still there are thousands to millions of images available through the GBIF network. 
 
-<img src="https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/kingdomBORBarplot.png" alt="imagedata" width = "1=200"/>
+<img src="https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/kingdomBORBarplot.png" alt="imagedata" width = "700"/>
 
 # Here we have images broken down by class, basisofrecord, and license
 
