@@ -1,19 +1,19 @@
 
 # GBIF image data
 
-**Basis of record** tells us roughly whether an image was collected in situ (**human observation** like with a phone) or was collected or digitized by a museum (**preserved specimen**). 
+**Basis of record** tells us roughly whether an image was collected in situ (**human observation** like with a phone) or was collected or digitized by a museum (**preserved specimen**). Plants are often collected by museums as **preserved specimens** aka "herbarium sheets". 
 
+# Licensces 
+
+There are many types of licenses. I have mostly broken things down into **non-commercial** and **commercial**. **Non-commerical** meaning anyone normal private citizen can use the photo not for profit. And **commercial** meaning a business could use the image to make a profit. 
 
 # Images counts by kingdom, basisofrecord, and license
-
-
 
 Not many images are available for commercial use, but many images are still available for non-commercial use. Perhaps **iNaturalist** images are licensed as non-commercial, but will still be available? 
 
 Still there are thousands to millions of images available through the GBIF network. 
 
-<img src="https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/kingdomBORBarplot.png" alt="imagedata" style="width:100px;"/>
-
+<img src="https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/kingdomBORBarplot.png" alt="imagedata" width = "1=200"/>
 
 # Here we have images broken down by class, basisofrecord, and license
 
