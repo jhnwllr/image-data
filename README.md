@@ -58,9 +58,10 @@ The global look for images for commercial use is even worse, although there is r
 
 Below is a table of potentially good regional image datasets. 
 
-An interactive version of this table can be found [here](https://jhnwllr.github.io/charts/percentCoverageTable). csv [here]().
+An interactive version of this table can be found [here](https://jhnwllr.github.io/charts/percentCoverageTable). csv [here](https://github.com/jhnwllr/image-data/blob/master/data/percentCoverageTable.csv).
 
-**PercentCoverage** is the number of species **totalSpeciesWith10Images (or more) / totalSpeciesInCountry**.  I have counted species as being in a country by including it if it at least has one occurrence record. 
+**PercentCoverage** = **totalSpeciesWith10Images** (or more) / **totalSpeciesInCountry**.  I have counted species as being in a country by including it if it at least has one occurrence record. 
+
 
 | percentCoverage  | basisofrecord      | country            | class           | countryCode | totalSpeciesWith10Images | totalSpeciesInCountry | 
 |------------------|--------------------|--------------------|-----------------|-------------|--------------------------|-----------------------| 
