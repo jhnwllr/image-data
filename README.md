@@ -56,7 +56,15 @@ The global look for images for commercial use is even worse, although there is r
 
 ![](https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/percentageCoverageBarplot.png)
 
-# Possible good regional image datasets
+# Possibly good regional image datasets
+
+Below is a table of potentially good regional image datasets. 
+
+An interactive version of this table can be found [here](https://jhnwllr.github.io/charts/percentCoverageTable). 
+
+**PercentCoverage** is the number of species 
+
+
 
 | percentCoverage  | basisofrecord      | country            | class           | countryCode | totalSpeciesWith10Images | totalSpeciesInCountry | 
 |------------------|--------------------|--------------------|-----------------|-------------|--------------------------|-----------------------| 
