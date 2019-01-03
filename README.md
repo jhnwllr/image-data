@@ -1,9 +1,7 @@
 
 # GBIF image data
 
-**Basis of record** tells us roughly whether an image was collected in situ (**human observation** like with a phone) or was collected or digitized by a museum (**preserved specimen**). Plants are often collected by museums as **preserved specimens** aka "herbarium sheets". For simplicity I have ignored other types of basis of record, since there are very few images with other types of basis of record :
-
-https://www.gbif.org/occurrence/search?basis_of_record=FOSSIL_SPECIMEN&basis_of_record=LIVING_SPECIMEN&basis_of_record=UNKNOWN&basis_of_record=LITERATURE&basis_of_record=MATERIAL_SAMPLE&basis_of_record=MACHINE_OBSERVATION&basis_of_record=OBSERVATION&media_type=StillImage
+**Basis of record** tells us roughly whether an image was collected in situ (**human observation** like with a phone) or was collected or digitized by a museum (**preserved specimen**). Plants are often collected by museums as **preserved specimens** aka "herbarium sheets". For simplicity I have ignored other types of basis of record, since there are very few images with other types of basis of record [see](https://www.gbif.org/occurrence/search?basis_of_record=FOSSIL_SPECIMEN&basis_of_record=LIVING_SPECIMEN&basis_of_record=UNKNOWN&basis_of_record=LITERATURE&basis_of_record=MATERIAL_SAMPLE&basis_of_record=MACHINE_OBSERVATION&basis_of_record=OBSERVATION&media_type=StillImage).
 
 # Licensces 
 
@@ -60,11 +58,9 @@ The global look for images for commercial use is even worse, although there is r
 
 Below is a table of potentially good regional image datasets. 
 
-An interactive version of this table can be found [here](https://jhnwllr.github.io/charts/percentCoverageTable). 
+An interactive version of this table can be found [here](https://jhnwllr.github.io/charts/percentCoverageTable). csv [here]().
 
-**PercentCoverage** is the number of species 
-
-
+**PercentCoverage** is the number of species **totalSpeciesWith10Images (or more) / totalSpeciesInCountry**.  I have counted species as being in a country by including it if it at least has one occurrence record. 
 
 | percentCoverage  | basisofrecord      | country            | class           | countryCode | totalSpeciesWith10Images | totalSpeciesInCountry | 
 |------------------|--------------------|--------------------|-----------------|-------------|--------------------------|-----------------------| 
