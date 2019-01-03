@@ -435,9 +435,10 @@ arrange(-percentCoverage) %>%
 select(percentCoverage,basisofrecord,countryCode=country,class,totalSpeciesInCountry=speciesCount,totalSpeciesWith10Images=n) %>% 
 mutate(country = countrycode::countrycode(countryCode, "iso2c", "country.name")) %>% 
 select(percentCoverage,basisofrecord,country,class,countryCode,totalSpeciesWith10Images,totalSpeciesInCountry) 
-D
 
-save(D,file="C:/Users/ftw712/Desktop/image data/data/percentCoverageCountryClassTable.rda")
+write.table(D,file="C:/Users/ftw712/Desktop/percentCoverageTable.csv",quote=FALSE,row.names=FALSE,sep=",")
+
+# save(D,file="C:/Users/ftw712/Desktop/image data/data/percentCoverageCountryClassTable.rda")
 
 
 
