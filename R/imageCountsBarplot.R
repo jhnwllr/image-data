@@ -40,7 +40,7 @@ plotBarPlotTaxonmy = function(imageData,group_var,Title,subtitle) {
     labs(title=Title,subtitle=subtitle) + 
     geom_bar(stat = "identity", position = position_dodge(preserve = 'single')) + 
     coord_flip() + 
-    scale_y_continuous(labels = scales::unit_format(unit = "M", scale = 1e-4),breaks=scales::pretty_breaks(5)) + 
+    scale_y_continuous(labels = scales::unit_format(unit = "M", scale = 1e-6),breaks=scales::pretty_breaks(5)) + 
     theme_ipsum(grid="X") +
     theme(legend.position="bottom") + 
     ylab("number of images") + 
