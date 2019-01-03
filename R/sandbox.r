@@ -320,6 +320,150 @@ ggsave("C:/Users/ftw712/Desktop/image data/plots/percentageCoverageBarplot.pdf",
 
 }
 
+# 5. Percent coverage of top classes with species with more 
+
+library(dplyr)
+library(countrycode)
+library(hrbrthemes)
+library(extrafont)
+library(forcats)
+library(purrr)
+loadfonts(quiet = TRUE)
+
+load("C:/Users/ftw712/Desktop/image data/data/imageDataTaxonKeyBasisOfRecordCountryCodeLicense.rda")
+
+#  number of species with 10 or more images 
+D = imageData %>% 
+group_by(class,basisofrecord,countrycode) %>%
+count(class) %>%
+mutate(variable="total") %>%
+as.data.frame()
+
+# D2 = imageData %>% 
+# filter(as.logical(as.character(canOthersUse))) %>%
+# group_by(class,basisofrecord,countrycode) %>% 
+# count(class) %>%
+# mutate(variable="non-commercial use") %>%
+# as.data.frame()
+
+# D3 = imageData %>% 
+# filter(as.logical(as.character(canGoogleUse))) %>%
+# group_by(class,basisofrecord,countrycode) %>% 
+# count(class) %>%
+# mutate(variable="commercial use") %>%
+# as.data.frame()
+
+# D = rbind(D1,D2,D3)
+
+D = D %>% filter(!is.na(class)) %>%
+arrange(-n) %>%
+filter(n > 1000) %>% 
+filter(!basisofrecord == "UNKNOWN") %>%
+filter(!basisofrecord == "FOSSIL_SPECIMEN") %>%
+filter(!basisofrecord == "MACHINE_OBSERVATION") %>%
+filter(!basisofrecord == "LIVING_SPECIMEN")
+
+str(D)
+# add extra information and reorder dataframe
+D = D %>% mutate(taxonKey = class %>% map_chr(~ rgbif::name_lookup(query=.x, rank="class", limit = 20)$data$nubKey[1])) %>% 
+mutate(basis_of_record = basisofrecord) %>%
+mutate(country = countrycode) %>% 
+group_by(taxonKey,basis_of_record,country) %>%
+gbifapi::addFacetedSpeciesCount(maxPages=200)
+
+save(D,file="C:/Users/ftw712/Desktop/D.rda")
+
+
+# str(D)
+# gbifapi::addTaxonSpeciesCount(classkey) %>%
+# mutate(percentCoverage = (n/speciesCount)) 
+
+# D = D %>% mutate(class = fct_reorder(class,percentCoverage))
+# D$variable = factor(D$variable,levels=c("total","non-commercial use","commercial use"))
+
+# str(D)
+# }
+
+if(FALSE) { 
+str(imageData)
+
+D = imageData %>% 
+group_by(class,basisofrecord,countrycode) %>% 
+count(class) %>%
+filter(n > 1000) %>% 
+filter(!countrycode == "") %>%
+mutate(variable="total") %>%
+arrange(-n) %>% 
+as.data.frame()
+
+D
+}
+
+if(FALSE) { 
+#  number of species with 10 or more images 
+D1 = imageData %>% 
+group_by(class,basisofrecord) %>% 
+count(class) %>%
+mutate(variable="total") %>%
+as.data.frame()
+
+D2 = imageData %>% 
+filter(as.logical(as.character(canOthersUse))) %>%
+group_by(class,basisofrecord) %>% 
+count(class) %>%
+mutate(variable="non-commercial use") %>%
+as.data.frame()
+
+D3 = imageData %>% 
+filter(as.logical(as.character(canGoogleUse))) %>%
+group_by(class,basisofrecord) %>% 
+count(class) %>%
+mutate(variable="commercial use") %>%
+as.data.frame()
+
+D = rbind(D1,D2,D3)
+
+D = D %>% filter(!is.na(class)) %>%
+arrange(-n) %>%
+filter(n > 1000) %>% 
+filter(!basisofrecord == "UNKNOWN") %>%
+filter(!basisofrecord == "FOSSIL_SPECIMEN") %>%
+filter(!basisofrecord == "MACHINE_OBSERVATION") %>%
+filter(!basisofrecord == "LIVING_SPECIMEN")
+
+# add extra information and reorder dataframe
+D = D %>% mutate(classkey = class %>% map_chr(~ rgbif::name_lookup(query=.x, rank="class", limit = 20)$data$nubKey[1])) %>% 
+gbifapi::addTaxonSpeciesCount(classkey) %>%
+mutate(percentCoverage = (n/speciesCount))
+
+D %>% filter(classkey == "212")
+# str(D)
+}
+
+
+if(FALSE) { 
+library(dplyr)
+
+load("C:/Users/ftw712/Desktop/image data/data/imageDataTaxonKeyBasisOfRecordCountryCodeLicense.rda")
+
+# str(imageData)
+
+D = imageData %>% 
+group_by(class,basisofrecord) %>% 
+count(class) %>%
+mutate(variable="total") %>%
+as.data.frame()
+
+D = D %>% filter(!is.na(class)) %>%
+arrange(-n) %>%
+filter(n > 1000) %>% 
+filter(!basisofrecord == "UNKNOWN") %>%
+filter(!basisofrecord == "FOSSIL_SPECIMEN") %>%
+filter(!basisofrecord == "MACHINE_OBSERVATION") %>%
+filter(!basisofrecord == "LIVING_SPECIMEN")
+
+D$class
+}
 
 
 

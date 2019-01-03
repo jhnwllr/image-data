@@ -7,17 +7,24 @@
 
 There are many types of licenses. I have mostly broken things down into **non-commercial** and **commercial**. **Non-commerical** meaning anyone normal private citizen can use the photo not for profit. And **commercial** meaning a business could use the image to make a profit. 
 
-# Images counts by kingdom, basisofrecord, and license
+# Image counts 
 
-Not many images are available for commercial use, but many images are still available for non-commercial use. Perhaps **iNaturalist** images are licensed as non-commercial, but will still be available? 
+Below I look at raw image counts on GBIF. 
 
-Still there are thousands to millions of images available through the GBIF network. 
+## Images counts by kingdom, basisofrecord, and license
+
+Two things to notice here: 
+
+* There are a lot of "herbarium sheets" (preserved specimens) for plants.
+* There are very few human observations available for commercial use. 
+
+**iNaturalist** images are **licensed as non-commercial** on GBIF, but might still be available? Still there are millions of images available through the GBIF network. 
 
 <img src="https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/kingdomBORBarplot.png" alt="imagedata" width = "700"/>
 
-# Here we have images broken down by class, basisofrecord, and license
+## Here I have images broken down by class, basisofrecord, and license
 
-At a lower taxonomic level we see that **flowering plants (magnoliopsida)** have many images. 
+At a lower taxonomic level we see that **flowering plants (magnoliopsida, liliopsida)** have many images. 
 
 Also we notice that many groups have thousands of images. 
 
@@ -25,14 +32,23 @@ Again **commercial use** might be difficult for many groups...
 
 ![](https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/classBORBarplot.png)
 
-# Groups with a 1000s species with >10 images 
+# Species Counts 
 
-Here are groups (based on taxonomic class), which have >1000 species with >10 images. 
+The total number of images is less interesting than the total number of species. Now I want to look at **species counts with >10 images** rather than total image counts. 
+
+## Species counts with >10 images 
+
+In the plot I am only showing classes with more than >1000 species with >10 images.
 
 ![](https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/classSpeBarplot.png)
 
+# Percent coverage
 
-# Percent coverage of species with >10 images
+Here I look at what is the percentage coverage in a group. 
+
+**Percent coverage = num. sp. >10 img/total num. sp. in class**
+
+## Percent coverage of species with >10 images
 
 **Percent coverage (num. sp. >10 img/total num. sp. in class)**. Here we see that global image coverage is quite poor for most groups with the exception of maybe **Aves** (birds) and a few plant classes (**Pinopsida**, **Lycopodiopsida**, **Polypodiopsida**), although many of these plant classes are "preserved specimens" aka probably herbarium sheets. Other groups have very poor global image coverage even considering preserved museum specimens. 
 
@@ -42,7 +58,10 @@ The global look for images for commercial use is even worse, although there is r
 
 ![](https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/percentageCoverageBarplot.png)
 
-# Selected regional coverage 
+# Possible good regional image datasets
+
+
+
 
 
 
