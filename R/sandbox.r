@@ -320,7 +320,7 @@ ggsave("C:/Users/ftw712/Desktop/image data/plots/percentageCoverageBarplot.pdf",
 
 }
 
-# 5. Percent coverage of top classes with species with more 
+if(FALSE) { # 5. Percent coverage of top classes with species with more 
 
 library(dplyr)
 library(countrycode)
@@ -328,6 +328,7 @@ library(hrbrthemes)
 library(extrafont)
 library(forcats)
 library(purrr)
+library(roperators)
 loadfonts(quiet = TRUE)
 
 load("C:/Users/ftw712/Desktop/image data/data/imageDataTaxonKeyBasisOfRecordCountryCodeLicense.rda")
@@ -339,21 +340,74 @@ count(class) %>%
 mutate(variable="total") %>%
 as.data.frame()
 
-# D2 = imageData %>% 
-# filter(as.logical(as.character(canOthersUse))) %>%
-# group_by(class,basisofrecord,countrycode) %>% 
-# count(class) %>%
-# mutate(variable="non-commercial use") %>%
-# as.data.frame()
+D = D %>% filter(!is.na(class)) %>%
+arrange(-n) %>%
+filter(n > 1000) %>% 
+filter(!basisofrecord == "UNKNOWN") %>%
+filter(!basisofrecord == "FOSSIL_SPECIMEN") %>%
+filter(!basisofrecord == "MACHINE_OBSERVATION") %>%
+filter(!basisofrecord == "LIVING_SPECIMEN")
 
-# D3 = imageData %>% 
-# filter(as.logical(as.character(canGoogleUse))) %>%
-# group_by(class,basisofrecord,countrycode) %>% 
-# count(class) %>%
-# mutate(variable="commercial use") %>%
-# as.data.frame()
+# add extra information and reorder dataframe
+D = D %>% mutate(taxonKey = class %>% map_chr(~ rgbif::name_lookup(query=.x, rank="class", limit = 20)$data$nubKey[1])) %>% 
+mutate(basis_of_record = basisofrecord) %>%
+mutate(country = countrycode) 
 
-# D = rbind(D1,D2,D3)
+
+addFacetedSpeciesCount = function(.data,L,Step=1000,maxPages=100,verbose=TRUE) {
+
+  L = .data %>% select(attr(.data,"var")) %>% purrr::transpose() # get a list to pass to faceter
+
+  f = function(...) { # anonymous function to be run with page while
+    x = list(...) # get Step and Page variables passed in by pageWhile
+    prefix = "http://api.gbif.org/v1/occurrence/search?limit=0&facet=speciesKey"
+    gbifapi::gbifapi(prefix %+% gbifapi::faceter(x[[3]][[1]]) %+% "&" %+% gbifapi::pagerFacet(x$Step,x$Page))$facets[[1]]$counts
+  }
+
+  speciesCount = c()
+  for(i in 1:length(L)) {
+	  print(L[[i]])
+      CL = gbifapi::pageWhile(FUN=f,Step=Step,maxPages=maxPages,verbose=verbose,L[[i]])
+      print(head(CL))
+	  # if(class(CL) == "try-error") { speciesCount[i] = NA; next
+      # }
+      speciesCount[i] = CL %>% purrr::map_chr(~ .x$name) %>% length()
+      }
+
+  d = cbind(as.data.frame(.data),data.frame(speciesCount))
+
+  return(d)
+}
+
+D = D %>% filter(!country == "") %>% select(taxonKey,country) %>% unique() %>% 
+group_by(taxonKey,country) %>% 
+addFacetedSpeciesCount(Step = 1000,maxPages=200)
+
+# save(D,file="C:/Users/ftw712/Desktop/D.rda")
+}
+
+
+# 5. Percent coverage of top class continued 
+
+# load(file="C:/Users/ftw712/Desktop/D.rda")
+
+library(dplyr)
+library(countrycode)
+library(hrbrthemes)
+library(extrafont)
+library(forcats)
+library(purrr)
+library(roperators)
+loadfonts(quiet = TRUE)
+
+load("C:/Users/ftw712/Desktop/image data/data/imageDataTaxonKeyBasisOfRecordCountryCodeLicense.rda")
+
+#  number of species with 10 or more images 
+D = imageData %>% 
+group_by(class,basisofrecord,countrycode) %>%
+count(class) %>%
+mutate(variable="total") %>%
+as.data.frame()
 
 D = D %>% filter(!is.na(class)) %>%
 arrange(-n) %>%
@@ -363,15 +417,28 @@ filter(!basisofrecord == "FOSSIL_SPECIMEN") %>%
 filter(!basisofrecord == "MACHINE_OBSERVATION") %>%
 filter(!basisofrecord == "LIVING_SPECIMEN")
 
-str(D)
 # add extra information and reorder dataframe
-D = D %>% mutate(taxonKey = class %>% map_chr(~ rgbif::name_lookup(query=.x, rank="class", limit = 20)$data$nubKey[1])) %>% 
+D1 = D %>% mutate(taxonKey = class %>% map_chr(~ rgbif::name_lookup(query=.x, rank="class", limit = 20)$data$nubKey[1])) %>% 
 mutate(basis_of_record = basisofrecord) %>%
 mutate(country = countrycode) %>% 
-group_by(taxonKey,basis_of_record,country) %>%
-gbifapi::addFacetedSpeciesCount(maxPages=200)
+filter(!country == "")
 
-save(D,file="C:/Users/ftw712/Desktop/D.rda")
+load("C:/Users/ftw712/Desktop/image data/data/speciesCountsClassCountry.rda")
+
+D1 = tidyr::unite(D1, "id", c("taxonKey","country"),remove=FALSE)
+D = tidyr::unite(D, "id", c("taxonKey","country"),remove=TRUE)
+
+D = merge(D1,D,id="id")
+
+D = D %>% mutate(percentCoverage = (n/speciesCount)*100) %>% 
+arrange(-percentCoverage) %>% 
+select(percentCoverage,basisofrecord,countryCode=country,class,totalSpeciesInCountry=speciesCount,totalSpeciesWith10Images=n) %>% 
+mutate(country = countrycode::countrycode(countryCode, "iso2c", "country.name")) %>% 
+select(percentCoverage,basisofrecord,country,class,countryCode,totalSpeciesWith10Images,totalSpeciesInCountry) 
+D
+
+save(D,file="C:/Users/ftw712/Desktop/image data/data/percentCoverageCountryClassTable.rda")
+
 
 
 # str(D)
