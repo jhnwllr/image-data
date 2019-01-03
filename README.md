@@ -5,7 +5,7 @@
 
 # Licenses 
 
-There are many types of licenses. I have mostly broken things down into **non-commercial** and **commercial**. **Non-commerical** meaning anyone normal private citizen can use the photo not for profit. And **commercial** meaning a business could use the image to make a profit. 
+There are many types of licenses. I have mostly broken things down into **non-commercial** and **commercial**. **Non-commerical** meaning any normal private citizen can use the photo not for profit. And **commercial** meaning a business could use the image to make a profit. 
 
 # Image counts 
 
