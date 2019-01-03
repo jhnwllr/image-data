@@ -24,11 +24,7 @@ Two things to notice here:
 
 ## Here I have images broken down by class, basisofrecord, and license
 
-At a lower taxonomic level we see that **flowering plants (magnoliopsida, liliopsida)** have many images. 
-
-Also we notice that many groups have thousands of images. 
-
-Again **commercial use** might be difficult for many groups...
+At a lower taxonomic level we see that **flowering plants (magnoliopsida, liliopsida)** have many many images. Many are probably "herbarium sheets" (preserved specimens), but there are still millions of human observations. Again howevers **commercial use** might be difficult for many groups...
 
 ![](https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/classBORBarplot.png)
 
