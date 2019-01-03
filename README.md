@@ -54,7 +54,7 @@ The global look for images for commercial use is even worse, although there is r
 
 ![](https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/percentageCoverageBarplot.png)
 
-Good regional image datasets
+# Good regional image datasets
 
 Below is a table of potentially good regional image datasets. 
 
