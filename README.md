@@ -54,13 +54,15 @@ The global look for images for commercial use is even worse, although there is r
 
 ![](https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/percentageCoverageBarplot.png)
 
-# Possibly good regional image datasets
+[Possibly good regional image datasets](#Possibly good regional image datasets) 
 
 Below is a table of potentially good regional image datasets. 
 
 An interactive version of this table can be found [here](https://jhnwllr.github.io/charts/percentCoverageTable). csv [here](https://github.com/jhnwllr/image-data/blob/master/data/percentCoverageTable.csv).
 
-**PercentCoverage** = **totalSpeciesWith10Images** (or more) / **totalSpeciesInCountry**.  I have counted species as being in a country by including it if it at least has one occurrence record. 
+**PercentCoverage** = **totalSpeciesWith10Images** (or more) / **totalSpeciesInCountry**.  I have counted species as being in a country by including it if it at least has one occurrence record in that country. For example, 2773 of 3450 species of birds in the US have 10 or more images on GBIF, meaning there are 3450 bird species with >1 occurrence record in the US. This differs from the above graph because those totals were taken directly from the backbone. 
+
+It might be possible to breakdown these categories even more. For example, certain insect groups like butterflies or dragonflies might have better regional coverage in some areas. 
 
 
 | percentCoverage  | basisofrecord      | country            | class           | countryCode | totalSpeciesWith10Images | totalSpeciesInCountry | 
