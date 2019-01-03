@@ -18,9 +18,7 @@ Two things to notice here:
 * There are a lot of "herbarium sheets" (preserved specimens) for plants.
 * There are very few human observations available for commercial use. 
 
-**iNaturalist** images are **licensed as non-commercial** on GBIF, but might still be available? Still there are millions of images available through the GBIF network. 
-
-<img src="https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/kingdomBORBarplot.png" alt="imagedata" width = "700"/>
+![]("https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/kingdomBORBarplot.png")
 
 ## Here I have images broken down by class, basisofrecord, and license
 
