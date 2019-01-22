@@ -342,7 +342,7 @@ as.data.frame()
 
 D = D %>% filter(!is.na(class)) %>%
 arrange(-n) %>%
-filter(n > 1000) %>% 
+filter(n > 20) %>% 
 filter(!basisofrecord == "UNKNOWN") %>%
 filter(!basisofrecord == "FOSSIL_SPECIMEN") %>%
 filter(!basisofrecord == "MACHINE_OBSERVATION") %>%
@@ -379,29 +379,90 @@ addFacetedSpeciesCount = function(.data,L,Step=1000,maxPages=100,verbose=TRUE) {
   return(d)
 }
 
-D = D %>% filter(!country == "") %>% select(taxonKey,country) %>% unique() %>% 
+D = D %>% filter(!country == "") %>% select(taxonKey,country) %>% unique() %>%
+na.omit() %>%
 group_by(taxonKey,country) %>% 
 addFacetedSpeciesCount(Step = 1000,maxPages=200)
 
-# save(D,file="C:/Users/ftw712/Desktop/D.rda")
+speciesCountsClassCountry = D
+save(speciesCountsClassCountry,file="C:/Users/ftw712/Desktop/image data/data/speciesCountsClassCountry.rda") 
+
 }
 
-
-# 5. Percent coverage of top class continued 
-
-# load(file="C:/Users/ftw712/Desktop/D.rda")
+if(FALSE) { # 5. Percent coverage of top class continued 
 
 library(dplyr)
 library(countrycode)
-library(hrbrthemes)
-library(extrafont)
-library(forcats)
 library(purrr)
 library(roperators)
-loadfonts(quiet = TRUE)
 
 load("C:/Users/ftw712/Desktop/image data/data/imageDataTaxonKeyBasisOfRecordCountryCodeLicense.rda")
 
+#  number of species with 10 or more images 
+D1 = imageData %>% 
+group_by(class,basisofrecord,countrycode) %>% 
+count(class) %>%
+mutate(variable="total") %>%
+as.data.frame()
+
+D2 = imageData %>% 
+filter(as.logical(as.character(canOthersUse))) %>%
+group_by(class,basisofrecord,countrycode) %>% 
+count(class) %>%
+mutate(variable="non-commercial use") %>%
+as.data.frame()
+
+D3 = imageData %>% 
+filter(as.logical(as.character(canGoogleUse))) %>%
+group_by(class,basisofrecord,countrycode) %>% 
+count(class) %>%
+mutate(variable="commercial use") %>%
+as.data.frame()
+
+imageData = rbind(D1,D2,D3) # merge all data together 
+imageData = imageData %>% rename(license = variable,totalSpeciesWith10Images=n)
+
+imageData = imageData %>% filter(!is.na(class)) %>%
+arrange(-totalSpeciesWith10Images) %>%
+filter(totalSpeciesWith10Images > 20) %>% 
+filter(!basisofrecord == "UNKNOWN") %>%
+filter(!basisofrecord == "FOSSIL_SPECIMEN") %>%
+filter(!basisofrecord == "MACHINE_OBSERVATION") %>%
+filter(!basisofrecord == "LIVING_SPECIMEN") %>%
+filter(!countrycode == "") 
+
+# add extra information and reorder dataframe
+D1 = imageData %>% mutate(taxonKey = class %>% map_chr(~ rgbif::name_lookup(query=.x, rank="class", limit = 20)$data$nubKey[1])) %>% 
+mutate(basis_of_record = basisofrecord) %>%
+mutate(country = countrycode) 
+
+load("C:/Users/ftw712/Desktop/image data/data/speciesCountsClassCountry.rda")
+
+D1 = tidyr::unite(D1, "id", c("taxonKey","country"),remove=FALSE)
+D = tidyr::unite(D, "id", c("taxonKey","country"),remove=TRUE)
+
+D = merge(D1,D,id="id")
+
+D = D %>% mutate(percentCoverage = (totalSpeciesWith10Images/speciesCount)*100) %>%
+arrange(-percentCoverage) %>%
+rename(countryCode=country,totalSpeciesInCountry=speciesCount) %>%
+mutate(country = countrycode::countrycode(countryCode, "iso2c", "country.name")) %>%
+select(percentCoverage,basisofrecord,country,class,totalSpeciesInCountry,totalSpeciesWith10Images,license) 
+
+str(D)
+}
+
+
+# nice plants and animals 
+load("C:/Users/ftw712/Desktop/image data/data/imageDataTaxonKeyBasisOfRecordCountryCodeLicense.rda")
+
+str(imageData)
+ls()
+
+taxonkey
+
+
+if(FALSE) {
 #  number of species with 10 or more images 
 D = imageData %>% 
 group_by(class,basisofrecord,countrycode) %>%
@@ -411,7 +472,7 @@ as.data.frame()
 
 D = D %>% filter(!is.na(class)) %>%
 arrange(-n) %>%
-filter(n > 1000) %>% 
+filter(n > 20) %>% 
 filter(!basisofrecord == "UNKNOWN") %>%
 filter(!basisofrecord == "FOSSIL_SPECIMEN") %>%
 filter(!basisofrecord == "MACHINE_OBSERVATION") %>%
@@ -436,21 +497,22 @@ select(percentCoverage,basisofrecord,countryCode=country,class,totalSpeciesInCou
 mutate(country = countrycode::countrycode(countryCode, "iso2c", "country.name")) %>% 
 select(percentCoverage,basisofrecord,country,class,countryCode,totalSpeciesWith10Images,totalSpeciesInCountry) 
 
-write.table(D,file="C:/Users/ftw712/Desktop/percentCoverageTable.csv",quote=FALSE,row.names=FALSE,sep=",")
+D
 
+# write.table(D,file="C:/Users/ftw712/Desktop/percentCoverageTable.csv",quote=FALSE,row.names=FALSE,sep=",")
 # save(D,file="C:/Users/ftw712/Desktop/image data/data/percentCoverageCountryClassTable.rda")
 
+}
 
 
-# str(D)
-# gbifapi::addTaxonSpeciesCount(classkey) %>%
-# mutate(percentCoverage = (n/speciesCount)) 
 
-# D = D %>% mutate(class = fct_reorder(class,percentCoverage))
-# D$variable = factor(D$variable,levels=c("total","non-commercial use","commercial use"))
 
-# str(D)
-# }
+
+
+
+
+
+
 
 if(FALSE) { 
 str(imageData)
@@ -508,7 +570,6 @@ D %>% filter(classkey == "212")
 # str(D)
 }
 
-
 if(FALSE) { 
 library(dplyr)
 
@@ -532,11 +593,6 @@ filter(!basisofrecord == "LIVING_SPECIMEN")
 
 D$class
 }
-
-
-
-
-
 
 if(FALSE) { # 1. get all 41k datasetKeys save dataseKeys.rda
 library(dplyr)
@@ -660,4 +716,8 @@ if(FALSE) { # 3. add basisofrecord
 
 # save(imageDataBasisOfRecord, file="C:/Users/ftw712/Desktop/image data/data/imageDataBasisOfRecord.rda")
 }
+
+
+
+
 
