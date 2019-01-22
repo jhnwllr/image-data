@@ -1,5 +1,6 @@
 {
-    "cursorPosition" : "20,91",
-    "scrollLine" : "0",
+    "cursorPosition" : "67,0",
+    "ignored_words" : "PercentCoverage,totalSpeciesWith,totalSpeciesInCountry\n",
+    "scrollLine" : "63",
     "tempName" : "Untitled1"
 }
