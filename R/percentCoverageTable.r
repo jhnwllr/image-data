@@ -66,7 +66,7 @@ save(speciesCountsClassCountry,file="C:/Users/ftw712/Desktop/image data/data/spe
 
 }
 
-if(FALSE) { # 2. Step Two clean and make table 
+if(TRUE) { # 2. Step Two clean and make table 
 library(dplyr)
 library(countrycode)
 library(purrr)
@@ -149,30 +149,5 @@ htmlwidgets::saveWidget(widget,file="C:/Users/ftw712/Desktop/percentCoverageTabl
 }
 
 
-# library(dplyr)
-
-# load("C:/Users/ftw712/Desktop/image data/data/imageDataTaxonKeyBasisOfRecordCountryCodeLicense.rda")
-
-# imageData = imageData %>% filter(!is.na(species)) %>% # very important keep only those with species rank 
-# select(species,class,basisofrecord,countrycode,canOthersUse,canGoogleUse) %>% 
-# filter(!countrycode == "") %>% unique() # get rid of extra license facet 
-
-# str(imageData)
 
 
-# imageData
-# str(imageData)
-# imageData$license
-# imageData$species
-
-# imageData %>% filter(class == "Aconoidasida")
-# imageData %>% group_by(class) %>% count(class) %>% as.data.frame()
-
-# str(imageData)
-# imageData %>% str()
-# imageData$class
-
-# rgbif::name_usage(key=7673407)$data$rank
-
-
-# 456 805

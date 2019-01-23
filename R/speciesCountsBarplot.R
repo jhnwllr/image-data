@@ -12,6 +12,8 @@ plotBarPlotSpeciesCount = function(imageData) {
   
   #  number of species with 10 or more images 
   D1 = imageData %>% 
+    select(class,basisofrecord,countrycode) %>% 
+    unique() %>% 
     group_by(class,basisofrecord) %>% 
     count(class) %>%
     mutate(variable="total") %>%
@@ -64,6 +66,11 @@ plotBarPlotSpeciesCount = function(imageData) {
 } 
 
 load("C:/Users/ftw712/Desktop/image data/data/imageDataTaxonKeyBasisOfRecordCountryCodeLicense.rda")
+
+# important image cleaning for image counts. 
+imageData = imageData %>% filter(!is.na(species)) %>% # very important keep only those with species rank 
+  select(species,class,basisofrecord,countrycode,canOthersUse,canGoogleUse) %>% 
+  filter(!countrycode == "") %>% unique() # get rid of extra license facet 
 
 p1 = plotBarPlotSpeciesCount(imageData)
 
