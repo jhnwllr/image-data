@@ -453,13 +453,153 @@ str(D)
 }
 
 
+library(purrr)
+library(dplyr)
+
 # nice plants and animals 
 load("C:/Users/ftw712/Desktop/image data/data/imageDataTaxonKeyBasisOfRecordCountryCodeLicense.rda")
+imageData = imageData %>% filter(!is.na(species)) # very important keep only those with species rank 
 
-str(imageData)
-ls()
+# common group name  Sci Groups
+niceGroups = rbind(
+c("mushroom-like fungi", "Basidiomycota"),
+c("mushroom-like fungi", "Agaricomycetes"),
+c("mushroom-like fungi", "Sordariomycetes"),
+c("birds", "Aves"),
+c("butterflies", "Lepidoptera"),
+c("spiders", "Arachnida"),
+c("reptiles", "Reptilia"),
+c("frogs", "Amphibia"),
+c("dragonflies", "Odonata"),
+c("flowers", "Magnoliophyta"),
+c("mosses", "Lycopodiopsida"),
+c("conifers", "Pinopsida"),
+c("mammals", "Mammalia"),
+c("sharks", "Elasmobranchii"),
+c("snails", "Gastropoda"),
+c("clam-like molluscs", "Bivalvia")
+) %>% as.data.frame() %>% setNames(c("commonName","sciName"))
 
-taxonkey
+niceGroups = niceGroups %>% 
+mutate(taxonkey = sciName %>% map_chr(~ rgbif::name_lookup(query=.x, limit = 20)$data$nubKey[1])) 
+
+
+
+
+
+# str(imageData)
+
+# rgbif::name_usage(key=34, data='children', rank = "SPECIES", start=0, limit=1000)$data %>% pull(key)
+
+# gbifapi::pagerFacet(1,100)
+
+# http://api.gbif.org/v1/species/34/children
+
+# imageData %>% filter(phylum == "Basidiomycota" | class == "Agaricomycetes" | phylum == "Basidiomycota") %>% nrow()
+# imageData %>% filter(phylum == "Basidiomycota") %>% nrow()
+
+# rgbif::name_lookup(query="Elasmobranchii", limit = 20)
+# niceGroups$sciName %>% map(~ rgbif::name_lookup(query=.x, limit = 20)$data)
+
+
+# need to merge by proper rank! 
+
+# imageData = imageData %>% merge(niceGroups,id = "taxonkey",all.x=TRUE) %>%
+# filter(!is.na(commonName))
+
+# imageData
+
+# number of species with 10 or more images 
+# D1 = imageData %>% 
+# group_by(taxonkey,basisofrecord,countrycode) %>% 
+# count(taxonkey) %>%
+# mutate(license="total") %>%
+# as.data.frame()
+
+# D2 = imageData %>% 
+# filter(as.logical(as.character(canOthersUse))) %>%
+# group_by(taxonkey,basisofrecord,countrycode) %>% 
+# count(taxonkey) %>%
+# mutate(license="non-commercial") %>%
+# as.data.frame()
+
+# D3 = imageData %>% 
+# filter(as.logical(as.character(canGoogleUse))) %>%
+# group_by(taxonkey,basisofrecord,countrycode) %>% 
+# count(taxonkey) %>%
+# mutate(license="commercial open") %>%
+# as.data.frame()
+
+# imageData = rbind(D1,D2,D3) # merge all data together
+
+# imageData
+
+# imageData = imageData %>% select(taxonkey,basisofrecord,countrycode,license) %>% 
+# group_by(taxonkey,basisofrecord,countrycode,license) %>%
+# count() %>%
+# rename(totalSpeciesWith10Images = n) %>% 
+# as.data.frame()
+
+
+
+
+# imageData
+# imageData = imageData %>% filter(taxonkey %in% niceGroups$taxonkey) %>%
+# merge(niceGroups[c("taxonkey","commonName")],id="taxonkey",all.x=TRUE)
+
+# imageData$totalSpeciesWith10Images
+
+# canGoogleUse
+# canOthersUse
+
+# imageData = imageData %>% 
+
+# str(imageData)
+
+
+
+# #  number of species with 10 or more images 
+# D1 = imageData %>% 
+# group_by(commonName,basisofrecord,countrycode) %>% 
+# count(commonName) %>%
+# mutate(license="total") %>%
+# as.data.frame()
+
+# D2 = imageData %>% 
+# filter(as.logical(as.character(canOthersUse))) %>%
+# group_by(commonName,basisofrecord,countrycode) %>% 
+# count(commonName) %>%
+# mutate(license="non-commercial use") %>%
+# as.data.frame()
+
+# D3 = imageData %>% 
+# filter(as.logical(as.character(canGoogleUse))) %>%
+# group_by(commonName,basisofrecord,countrycode) %>% 
+# count(commonName) %>%
+# mutate(license="commercial use") %>%
+# as.data.frame()
+
+# imageData = rbind(D1,D2,D3) # merge all data together 
+# imageData = imageData %>% rename(totalSpeciesWith10Images=n)
+
+# imageData = imageData %>%
+# arrange(-totalSpeciesWith10Images) %>%
+# filter(totalSpeciesWith10Images > 20) %>% 
+# filter(!basisofrecord == "UNKNOWN") %>%
+# filter(!basisofrecord == "FOSSIL_SPECIMEN") %>%
+# filter(!basisofrecord == "MACHINE_OBSERVATION") %>%
+# filter(!basisofrecord == "LIVING_SPECIMEN") %>%
+# filter(!countrycode == "") 
+
+
+# imageData
+
+# commonNames %>% map_chr(sciName,~ rgbif::name_lookup(query=.x, limit = 20)$data$nubKey[1]) 
+
+# c("Basidiomycota", "Agaricomycetes", "Sordariomycetes") %>% map_chr(~ rgbif::name_lookup(query=.x, limit = 20)$data$nubKey[1])
+
+
+# taxonkey
 
 
 if(FALSE) {
