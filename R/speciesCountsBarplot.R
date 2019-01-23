@@ -54,7 +54,7 @@ plotBarPlotSpeciesCount = function(imageData) {
   
   p1 = ggplot(D, aes(class,n,fill=basisofrecord)) + 
     geom_bar(stat = "identity", position = position_dodge(preserve = 'single')) + 
-    scale_y_continuous(labels = scales::unit_format(unit = "k", scale = 1e-3),breaks=scales::pretty_breaks(5)) + 
+    scale_y_continuous(labels = scales::unit_format(unit = "k", scale = 1e-3),breaks=scales::pretty_breaks(6)) + 
     coord_flip() +
     theme_ipsum(grid="X") +
     theme(legend.position="bottom") +
