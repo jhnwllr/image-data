@@ -48,7 +48,7 @@ Here I look at what is the percentage coverage in a group.
 
 The global look for images for commercial use is even worse, although there is reasonable non-commercial image coverage. 
 
-**Species counts** were taken from **GBIF backbone** and probably should be interpreted with caution. Duplicates might explain why we see >100% in some cases. A better measure might be the total number of species for which we have **at least 1 occurrence**. Still this graph  shows us that **regional breakdowns** are probably necessary for an image dataset with good coverage. 
+**Species counts** were taken from **GBIF backbone** and probably should be interpreted with caution. A better measure might be the total number of species for which we have **at least 1 occurrence**. Still this graph  shows us that **regional breakdowns** are probably necessary for an image dataset with good coverage. 
 
 ![](https://raw.githubusercontent.com/jhnwllr/image-data/master/plots/percentageCoverageBarplot.png)
 

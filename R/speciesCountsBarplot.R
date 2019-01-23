@@ -13,7 +13,6 @@ plotBarPlotSpeciesCount = function(imageData) {
   #  number of species with 10 or more images 
   D1 = imageData %>% 
     select(class,basisofrecord,countrycode) %>% 
-    unique() %>% 
     group_by(class,basisofrecord) %>% 
     count(class) %>%
     mutate(variable="total") %>%
@@ -50,7 +49,7 @@ plotBarPlotSpeciesCount = function(imageData) {
   library(scales)
   
   Title = "Number of species with >10 images available based on class and basis of record"
-  subtitle = "There are many groups with 1000s of species with >10 images"
+  subtitle = ""
   
   p1 = ggplot(D, aes(class,n,fill=basisofrecord)) + 
     geom_bar(stat = "identity", position = position_dodge(preserve = 'single')) + 
