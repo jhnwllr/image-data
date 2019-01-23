@@ -66,7 +66,7 @@ save(speciesCountsClassCountry,file="C:/Users/ftw712/Desktop/image data/data/spe
 
 }
 
-if(TRUE) { # 2. Step Two clean and make table 
+if(FALSE) { # 2. Step Two clean and make table 
 library(dplyr)
 library(countrycode)
 library(purrr)
@@ -149,5 +149,100 @@ htmlwidgets::saveWidget(widget,file="C:/Users/ftw712/Desktop/percentCoverageTabl
 }
 
 
+# process imageDataTaxonKeyBasisOfRecordCountryCodeLicense.rda imageData --> speciesCounts
+# speciesCountsClassBasisOfRecordCountryCodeLicense.rda
+if(FALSE) { 
+
+library(dplyr)
+library(purrr)
+library(roperators)
+
+load("C:/Users/ftw712/Desktop/image data/data/imageDataTaxonKeyBasisOfRecordCountryCodeLicense.rda")
+
+imageData = imageData %>% filter(!is.na(species)) %>% # very important keep only those with species rank 
+  select(species,class,basisofrecord,countrycode,canOthersUse,canGoogleUse) %>% 
+  filter(!countrycode == "") %>% 
+  unique()
+
+nonCommercial = imageData %>% 
+  filter(as.logical(as.character(canOthersUse))) %>%
+  group_by(class,basisofrecord,countrycode) %>% 
+  count(class) %>%
+  mutate(license="non-commercial") %>%
+  as.data.frame()
+
+commercial = imageData %>% 
+  filter(as.logical(as.character(canGoogleUse))) %>%
+  group_by(class,basisofrecord,countrycode) %>% 
+  count(class) %>%
+  mutate(license="open commercial") %>%
+  as.data.frame()
+
+total = imageData %>% 
+  group_by(class,basisofrecord,countrycode) %>% 
+  count(class) %>%
+  mutate(license="total") %>%
+  as.data.frame()
+  
+imageData = rbind(total,commercial,nonCommercial) # combine 
+
+# clean up 
+imageData = imageData %>% 
+  rename(totalSpeciesWith10Images=n) %>% 
+  filter(!is.na(class)) %>%
+  arrange(-totalSpeciesWith10Images) %>%
+  filter(totalSpeciesWith10Images > 20) %>% 
+  filter(!basisofrecord == "UNKNOWN") %>%
+  filter(!basisofrecord == "FOSSIL_SPECIMEN") %>%
+  filter(!basisofrecord == "MACHINE_OBSERVATION") %>%
+  filter(!basisofrecord == "LIVING_SPECIMEN") %>%
+  filter(!countrycode == "") 
+  
+speciesCounts = imageData
+
+str(speciesCounts)
+
+save(speciesCounts,file="C:/Users/ftw712/Desktop/image data/data/speciesCountsClassBasisOfRecordCountryCodeLicense.rda")
+}
 
 
+library(dplyr)
+library(purrr)
+library(roperators)
+
+load("C:/Users/ftw712/Desktop/image data/data/speciesCountsClassBasisOfRecordCountryCodeLicense.rda")
+
+# add extra information and reorder dataframe
+speciesCounts = speciesCounts %>% mutate(taxonKey = class %>% map_chr(~ rgbif::name_lookup(query=.x, rank="class", limit = 20)$data$nubKey[1])) %>% 
+  mutate(basis_of_record = basisofrecord) %>%
+  mutate(country = countrycode) 
+
+load("C:/Users/ftw712/Desktop/image data/data/speciesCountsClassCountry.rda") # occ counts from countries
+
+speciesCounts = tidyr::unite(speciesCounts, "id", c("taxonKey","country"),remove=FALSE)
+D = tidyr::unite(D, "id", c("taxonKey","country"),remove=TRUE)
+
+D = merge(speciesCounts,D,id="id")
+
+D = D %>% mutate(percentCoverage = (totalSpeciesWith10Images/speciesCount)*100) %>%
+  arrange(-percentCoverage) %>%
+  rename(countryCode=country,totalSpeciesInCountry=speciesCount) %>%
+  mutate(country = countrycode::countrycode(countryCode, "iso2c", "country.name")) %>%
+  select(percentCoverage,basisofrecord,country,class,totalSpeciesInCountry,totalSpeciesWith10Images,license) 
+
+write.table(D,file="C:/Users/ftw712/Desktop/percentCoverageTable.csv",quote=FALSE,row.names=FALSE,sep=",")
+save(D,file="C:/Users/ftw712/Desktop/image data/data/percentCoverageCountryClassTable.rda")
+
+D = D %>% mutate(percentCoverage = round(percentCoverage,2))
+
+library(DT)
+caption = 'Table: This is a table of taxonomic class and percentage image-coverage by country.
+The data was downloaded in Dec 2018.'
+
+widget = datatable(D, filter = 'top', caption=caption, options = list(pageLength = 60))
+
+htmlwidgets::saveWidget(widget,file="C:/Users/ftw712/Desktop/percentCoverageTable.html")
+if(FALSE) { 
+
+}
+  

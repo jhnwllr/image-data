@@ -12,6 +12,7 @@ plotBarPlotPercentCoverage = function(imageData) { # only works right now for cl
   
   #  number of species with 10 or more images 
   D1 = imageData %>% 
+    select(class,basisofrecord,countrycode) %>%
     group_by(class,basisofrecord) %>% 
     count(class) %>%
     mutate(variable="total") %>%
@@ -53,7 +54,7 @@ plotBarPlotPercentCoverage = function(imageData) { # only works right now for cl
   library(scales)
   
   Title = "Percent coverage of species with >10 images"
-  subtitle = "This graph shows global coverage is poor for most groups, so regional breakdowns probably necessary"
+  subtitle = "This graph shows global coverage is poor for most groups, so regional breakdowns are probably necessary"
   
   p1 = ggplot(D, aes(class,percentCoverage,fill=basisofrecord)) + 
     geom_bar(stat = "identity", position = position_dodge(preserve = 'single')) + 
@@ -71,7 +72,13 @@ plotBarPlotPercentCoverage = function(imageData) { # only works right now for cl
 # Groups with >10 or more species percentage coverage
 load("C:/Users/ftw712/Desktop/image data/data/imageDataTaxonKeyBasisOfRecordCountryCodeLicense.rda")
 
+imageData = imageData %>% filter(!is.na(species)) %>% # very important keep only those with species rank
+  select(species,class,basisofrecord,countrycode,canOthersUse,canGoogleUse) %>%
+  filter(!countrycode == "") %>% unique() # get rid of extra license facet
+
 p1 = plotBarPlotPercentCoverage(imageData)
 
 ggsave("C:/Users/ftw712/Desktop/image data/plots/percentageCoverageBarplot.png",plot=p1,width=10,height=10,units="in")
 ggsave("C:/Users/ftw712/Desktop/image data/plots/percentageCoverageBarplot.pdf",plot=p1,width=10,height=10,device=cairo_pdf)
+
+
