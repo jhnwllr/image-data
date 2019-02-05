@@ -206,6 +206,7 @@ save(speciesCounts,file="C:/Users/ftw712/Desktop/image data/data/speciesCountsCl
 }
 
 
+if(FALSE) { 
 library(dplyr)
 library(purrr)
 library(roperators)
@@ -242,7 +243,32 @@ The data was downloaded in Dec 2018.'
 widget = datatable(D, filter = 'top', caption=caption, options = list(pageLength = 60))
 
 htmlwidgets::saveWidget(widget,file="C:/Users/ftw712/Desktop/percentCoverageTable.html")
-if(FALSE) { 
 
 }
+  
+  
+library(dplyr)  
+library(roperators)
+
+D = data.table::fread("C:/Users/ftw712/Desktop/image data/data/percentCoverageTable.csv") %>%
+as.data.frame()
+
+D = D %>% 
+filter(basisofrecord == "HUMAN_OBSERVATION") %>%
+filter(license == "non-commercial")
+
+D = head(D,25)
+
+cat(round(D$percentCoverage,1) %+% " % of " %+% D$country %+% " " %+% D$class %+% 
+" recorded as human observation have 10 or more images (non-commercial license)" %+% "\n" )
+
+
+
+
+
+  
+  
+  
+  
+  
   
